@@ -7,7 +7,7 @@ const CircularProgress = ({
   strokeWidth = 10,
   progress = 0,
   tintColor = '#00BA6B',
-  backgroundColor = '#e6e6e6',
+  backgroundColor = '#00BA6B',
   children,
 }) => {
   const radius = (size - strokeWidth) / 2;

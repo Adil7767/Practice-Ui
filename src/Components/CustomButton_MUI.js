@@ -29,6 +29,7 @@ export default function CustomButton_MUI({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        flex:1
       }}
       disabled={disabled}
       labelStyle={{color: textColor, fontSize: 18}}

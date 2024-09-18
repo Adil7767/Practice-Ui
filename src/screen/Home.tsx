@@ -74,10 +74,11 @@ const Home: React.FC = () => {
         <View style={styles.progressContainer}>
           <CircularProgress
             strokeWidth={7}
-            size={70}
+            size={60}
             progress={4 / 6}
-            color={'#00BA6B'}
-            backgroundColor={'#333333'}>
+            // color={'#00BA6B'}
+            // backgroundColor={'#00BA6B'}
+            >
             <Text style={styles.progressText}>4/6</Text>
           </CircularProgress>
           <View style={styles.progressTextContainer}>
@@ -93,7 +94,7 @@ const Home: React.FC = () => {
         <View style={styles.riyadText}>
           <Image
             source={require('../asset/Riyadh.png')}
-            style={{ marginBottom:5 }}
+            style={{ marginBottom:7 }}
             resizeMode="cover"
           />
           <Text style={styles.subText}>Saudi Arabia</Text>
@@ -118,8 +119,9 @@ const Home: React.FC = () => {
           keyExtractor={item => item.id}
           style={styles.meetingList}
         />
+          </View>
         {selectedDate &&
-        <View style={{position:"absolute",bottom:20,width:"100%",alignSelf:"center"}}>
+        <View style={{position:"absolute",bottom:20,width:"100%",alignSelf:"center",paddingHorizontal:8}}>
           <CustomButton_MUI
             disabled={false}
             text={'Book My Seat'}
@@ -128,7 +130,6 @@ const Home: React.FC = () => {
             textColor={'#fff'}
           onClick={() => {setShow(true);setSelectedDate("")}}
           /></View>}
-      </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -148,8 +149,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   header: {
-    marginTop: -10,
+    marginTop: 15,
     alignSelf: 'center',
+    left:-10,
     width: 100,
     height: 40,
   },
@@ -171,7 +173,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFF',
     fontWeight: '500',
-    marginBottom:5
+    marginBottom:7
   },
   changeLocation: {
     fontSize: 16,
@@ -181,6 +183,8 @@ const styles = StyleSheet.create({
   meetingLabel: {
     color: '#79747E',
     paddingTop: 16,
+    width:361,
+    lineHeight: 24,
   },
   meetingList: {
     marginTop: 10,
@@ -205,7 +209,7 @@ const styles = StyleSheet.create({
     height: 30,
     tintColor: 'white',
   },
-  riyadText: { marginLeft: 16, marginTop: 230},
+  riyadText: { marginLeft: 16, marginTop: 240},
   locationIcon: { marginTop: 3, marginRight: 6 },
   meetingContainer: {
     flexDirection: 'row',
@@ -229,7 +233,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     paddingHorizontal: 16,
     alignSelf: "center",
-    top:60,
+    top:90,
     position: "absolute"
   },
   progressText: {
@@ -251,7 +255,8 @@ const styles = StyleSheet.create({
     color: '#49454F',
     fontSize: 16,
     fontWeight: "bold",
-    marginTop: 8,
+    lineHeight:20
+    // marginTop: 2,
     // width:"70%"
   },
 });

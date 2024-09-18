@@ -1,118 +1,84 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { Image, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Home from './src/screen/Home';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+// #region Shared components and props
+const iconImages = {
+  homeCircle: require('./src/asset/homeCircle.png'),
+  accountCircle: require('./src/asset/accountCircle.png'),
+  bell: require('./src/asset/bell.png'),
+  message: require('./src/asset/message.png'),
+  settings: require('./src/asset/settings.png'),
+};
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const RenderTabBarIcon = ({ focused, route }: any): JSX.Element => {
+  const iconName = {
+    'Tab A': 'homeCircle',
+    'Tab B': 'accountCircle',
+    'Tab C': 'bell',
+    'Tab D': 'message',
+    'Tab E': 'settings',
+  }[route.name] || '';
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={{ backgroundColor: focused ? '#00BA6B' : 'transparent', borderRadius: 20, width: 64, height: 32 }}>
+      <Image source={iconImages[iconName]} style={{ height: 20, width: 20, alignSelf: 'center', marginTop: 5 }} resizeMode='cover'/>
     </View>
   );
-}
+};
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const createStack = (initialRouteName: string): JSX.Element => {
+  const Stack = createNativeStackNavigator();
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={initialRouteName}>
+      <Stack.Screen name={initialRouteName} component={Home} />
+      <Stack.Screen name={`${initialRouteName}Details`} component={Home} />
+    </Stack.Navigator>
+  );
+};
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+const HomeTabAStack = () => createStack('TabA');
+const HomeTabBStack = () => createStack('TabB');
+const HomeTabCStack = () => createStack('TabC');
+const HomeTabDStack = () => createStack('TabD');
+const HomeTabEStack = () => createStack('TabE');
+
+const HomeTab = (): JSX.Element => {
+  const Tab = createBottomTabNavigator();
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <Tab.Navigator
+      screenOptions={({ route }: any) => ({
+        tabBarActiveTintColor: 'blue',
+        tabBarInactiveTintColor: 'transparent',
+        headerShown: false,
+        tabBarHideOnKeyboard: true,
+        tabBarIcon: (tabBarIconProps: any) => RenderTabBarIcon({ ...tabBarIconProps, route }),
+        tabBarLabel: () => null, 
+        tabBarStyle: {
+          backgroundColor: '#000',
+          borderTopWidth: 0, 
+          elevation: 0, 
+          paddingBottom:20
+        },
+      })}
+    >
+      <Tab.Screen name="Tab A" component={HomeTabAStack} />
+      <Tab.Screen name="Tab C" component={HomeTabCStack} />
+      <Tab.Screen name="Tab B" component={HomeTabBStack} />
+      <Tab.Screen name="Tab D" component={HomeTabDStack} />
+      <Tab.Screen name="Tab E" component={HomeTabEStack} />
+    </Tab.Navigator>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+const App = (): JSX.Element => (
+  <NavigationContainer>
+    <HomeTab />
+  </NavigationContainer>
+);
 
 export default App;
